@@ -24,7 +24,7 @@ function riderRequest()
 {
 
     riderCount++;
-    var riderName= `Rider:${riderCount}`;
+    var riderName= `Rider ${riderCount}`;
     var randomCoordX= between(0,1000);
     var randomCoordY= between(0,1000);
     var destCoordX= between(0,1000);
@@ -57,7 +57,7 @@ function driverRequest()
 {
     driverCount++;
     carNumber++;
-    var driverName= `Driver:${driverCount}`;
+    var driverName= `Driver ${driverCount}`;
 
     var randomCoordX= between(0,1000);
     var randomCoordY= between(0,1000);
@@ -92,7 +92,10 @@ setInterval(driverRequest,1000);
 riderSocket.on("message",(msg)=>{
 
     console.log(msg);
+    
 });
+
+
 
 driverSocket.on("message",(msg)=>{
 

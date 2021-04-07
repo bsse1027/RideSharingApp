@@ -13,6 +13,7 @@ const driverNsp=io.of('/driver');
 
 var riders=[];
 var drivers=[];
+var matchedPairs=[];
 
 app.use(
     express.urlencoded({
@@ -48,81 +49,67 @@ app.post("/driver",(req,res)=>{
 
 });
 
-// function pairMatch()
-// {
-    
-//     for(var i=0; i<riders.length;i++)
-//     {
-//         var distance= Number.POSITIVE_INFINITY;
-//         var index;
-        
-//         for(var j =0;j<drivers.length;j++)
-//         {
-//             var tempDist = Math.sqrt(Math.pow((drivers[j].coOrdinate.x-riders[i].coOrdinate.x),2) + Math.pow((drivers[j].coOrdinate.y-riders[i].coOrdinate.y),2));
-            
-//             if(tempDist<distance)
-//             {
-//                 distance=tempDist;
-//                 index=j;
-//             }
-
-//         }
-
-//         drivers.splice(index,1);
-//         riders.splice(i,1);
-//         console.log(riders[i].name+"matched with"+drivers[index].name);
-
-//     }
-//     drivers=[];
-//     riders=[];
-
-
-// };
-
-//setInterval(pairMatch,5000);
-
-//var distance = Math.sqrt(Math.pow(drivers[i].coOrdinate.x-riders[i].coOrdinate.x),2 + Math.pow(drivers[i].coOrdinate.y-riders[i].coOrdinate.y),2)
-
-const job = scheduler.scheduleJob('*/5 * * * * *', function()
+function pairMatch()
 {
+    var cost=0; 
+    console.log(riders.length, drivers.length);
+    if(riders.length !== 0)
+    {
+        for(var i=0; i<riders.length;i++)
+    {
+        var distance= Number.POSITIVE_INFINITY;
+        var index=-1;
 
-    var distance= Number.POSITIVE_INFINITY;
-    var riderIndex=-1;
-    
-
-    riders.forEach((riderData)=>{
-        var cost;
-        var minDriverIndex;
-
-        riderIndex++;
-
-        var driverIndex=-1;
-
-        if(drivers.length)
+        if(drivers.length!==0)
         {
-            drivers.forEach((driverData)=>{
+            
+        for(var j =0;j<drivers.length;j++)
+        {
+            var tempDist = Math.sqrt(Math.pow((drivers[j].coOrdinate.x-riders[i].coOrdinate.x),2) + Math.pow((drivers[j].coOrdinate.y-riders[i].coOrdinate.y),2));
+            
+            if(tempDist<distance)
+            {
+                distance=tempDist;
+                index=j;
+            }
 
-                driverIndex++;
-                var tempDist = Math.sqrt(Math.pow((drivers[driverIndex].coOrdinate.x-riders[riderIndex].coOrdinate.x),2) + Math.pow((drivers[driverIndex].coOrdinate.y-riders[riderIndex].coOrdinate.y),2));
-
-                if(tempDist<distance)
-                {
-                    distance=tempDist;
-                    minDriverIndex=driverIndex;
-                }
-
-                cost = 2*distance;
-                
-
-            });
         }
 
-        console.log(riderData.name + drivers[minDriverIndex].name);
+        }
+        cost=distance*2;
+        
+        var jsonMatch=
+            {
+                "riderName":riders[i].name,
+                "driverName":drivers[index].name,
+                "carNumber":drivers[index].carNumber,
+                "fair":cost
+            };
+        
+        
+        matchedPairs.push(jsonMatch);
+        
+        
+        //console.log(riders[i].name+"matched with"+drivers[index].name+"Cost is: "+cost);
+        drivers.splice(index,1);
+        riders.splice(i,1);
+        
+
+    }
+    
+    //drivers=[];
+    //riders=[];
+
+    }
+    
+console.log(matchedPairs);
+
+};
 
 
-    })
+setInterval(pairMatch,5000);
 
-});
+//var distance = Math.sqrt(Math.pow(drivers[i].coOrdinate.x-riders[i].coOrdinate.x),2 + Math.pow(drivers[i].coOrdinate.y-riders[i].coOrdinate.y),2)
 
 
 
@@ -130,6 +117,10 @@ riderNsp.on('connection',(socket)=>{
 
     console.log("Rider Connection Established");
     socket.emit('message',`Rider's Console: Hello`);
+    if(matchedPairs.length!==0)
+    {
+        socket.emit("data","Hello Data")
+    }
     socket.on("clientResponse",(response)=>{
 
         console.log(response);
