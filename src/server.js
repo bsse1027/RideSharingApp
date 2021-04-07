@@ -22,28 +22,28 @@ app.get("/",(req,res)=>{
 
 });
 
-app.post('/todos', (req, res) => {
-    console.log(req.body.todo)
-  })
+// app.post('/todos', (req, res) => {
+//     console.log(req.body.todo)
+//   })
 
-// app.get("/rider",(req,res)=>{
+app.post("/rider",(req,res)=>{
 
-//     res.send("HELLO").status(200);
+    console.log(req.body);
 
-// });
+});
 
-// app.get("/driver",(req,res)=>{
+app.post("/driver",(req,res)=>{
 
-//     res.send("HELLO").status(200);
+   console.log(req.body);
 
-// });
+});
 
 
 
 riderNsp.on('connection',(socket)=>{
 
     console.log("Rider Connection Established");
-    socket.emit('message','Hello Rider');
+    socket.emit('message',`Rider's Console: Hello`);
     socket.on("clientResponse",(response)=>{
 
         console.log(response);
@@ -55,7 +55,7 @@ riderNsp.on('connection',(socket)=>{
 driverNsp.on('connection',(socket)=>{
 
     console.log("Driver Connection Established");
-    socket.emit('message','Hello Driver');
+    socket.emit('message',`Driver's Console: Hello`);
     socket.on("clientResponse",(response)=>{
 
         console.log(response);

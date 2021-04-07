@@ -6,17 +6,46 @@ const socket = io.connect('http://localhost:3000');
 const riderSocket = io("http://localhost:3000/rider");
 const driverSocket = io("http://localhost:3000/driver");
 
+var riderCount=0;
+var driverCount=0;
+var carNumber=10000;
+
+function between(min, max) {  
+    return Math.floor(
+      Math.random() * (max - min) + min
+    )
+  }
+
+
+
 
 
 function riderRequest()
 {
-axios
+
+    riderCount++;
+    var riderName= `Rider:${riderCount}`;
+    var randomCoordX= between(0,1000);
+    var randomCoordY= between(0,1000);
+    var destCoordX= between(0,1000);
+    var destCoordY= between(0,1000);
+
+    axios
   .post('http://localhost:3000/rider', {
-    todo: 'Rider'
+    "name":riderName,
+    "coOrdinate":{
+        "x":randomCoordX,
+        "y":randomCoordY
+    },
+    "destination":{
+        "x":destCoordX,
+        "y":destCoordY
+    }
+
   })
   .then(res => {
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(res)
+    // console.log(`statusCode: ${res.statusCode}`)
+    // console.log(res)
   })
   .catch(error => {
     console.error(error)
@@ -26,13 +55,27 @@ axios
 
 function driverRequest()
 {
+    driverCount++;
+    carNumber++;
+    var driverName= `Driver:${driverCount}`;
+
+    var randomCoordX= between(0,1000);
+    var randomCoordY= between(0,1000);
+
 axios
   .post('http://localhost:3000/driver', {
-    todo: 'Driver'
+    
+    "name":driverName,
+    "carNumber":carNumber,
+    "coOrdinate":{
+        "x":randomCoordX,
+        "y":randomCoordY
+    }
+
   })
   .then(res => {
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(res)
+    // console.log(`statusCode: ${res.statusCode}`)
+    // console.log(res)
   })
   .catch(error => {
     console.error(error)
