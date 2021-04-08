@@ -10,6 +10,7 @@ const server=http.createServer(app);
 const io=socketIO(server);
 const riderNsp=io.of('/rider');
 const driverNsp=io.of('/driver');
+const commNsp=io.of('/communication');
 
 var riders=[];
 var drivers=[];
@@ -93,7 +94,6 @@ function pairMatch()
         //console.log(riders[i].name+"matched with"+drivers[index].name+"Cost is: "+cost);
         drivers.splice(index,1);
         riders.splice(i,1);
-        
 
     }
     
@@ -104,6 +104,7 @@ function pairMatch()
     
 console.log(matchedPairs);
 
+
 };
 
 
@@ -113,14 +114,19 @@ setInterval(pairMatch,5000);
 
 
 
-riderNsp.on('connection',(socket)=>{
+commNsp.on('connection',(socket)=>{
 
     console.log("Rider Connection Established");
-    socket.emit('message',`Rider's Console: Hello`);
-    if(matchedPairs.length!==0)
-    {
-        socket.emit("data","Hello Data")
-    }
+    socket.emit('message',`Hello Client`);
+    setInterval(()=>{
+
+        if(matchedPairs.length!=0)
+        {
+            socket.emit('data',matchedPairs)
+        }
+
+    },5000)
+    
     socket.on("clientResponse",(response)=>{
 
         console.log(response);
@@ -129,17 +135,17 @@ riderNsp.on('connection',(socket)=>{
 
 });
 
-driverNsp.on('connection',(socket)=>{
+// driverNsp.on('connection',(socket)=>{
 
-    console.log("Driver Connection Established");
-    socket.emit('message',`Driver's Console: Hello`);
-    socket.on("clientResponse",(response)=>{
+//     console.log("Driver Connection Established");
+//     socket.emit('message',`Driver's Console: Hello`);
+//     socket.on("clientResponse",(response)=>{
 
-        console.log(response);
+//         console.log(response);
 
-    })
+//     })
 
-});
+// });
 
 
 
