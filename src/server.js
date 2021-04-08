@@ -3,6 +3,11 @@ const http = require('http');
 const socketIO = require('socket.io');
 const scheduler = require('node-schedule');
 
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
+const connectionURL = 'mongodb://127.0.0.1:27017';
+const databaseName = 'ride-sharing';
+
 
 const app = express();
 const port =3000;
@@ -32,10 +37,6 @@ app.get("/",(req,res)=>{
 
 });
 
-// app.post('/todos', (req, res) => {
-//     console.log(req.body.todo)
-//   })
-
 app.post("/rider",(req,res)=>{
 
     riders.push(req.body);
@@ -50,10 +51,51 @@ app.post("/driver",(req,res)=>{
 
 });
 
+app.post("/rating",(req,res)=>{
+
+    var driverName=req.body.name;
+    var rating=req.body.rating;
+
+    
+    MongoClient.connect(connectionURL,{useUnifiedTopology: true}, (error, client) =>
+    {
+        if(error)
+        {
+            return console.log("Unable to connect to Database'");
+        }
+
+        const db = client.db(databaseName);
+
+        
+    db.collection('drivers').insertOne(
+      {
+          name: driverName,
+          rating : rating
+      }
+      , (error , result) => {
+
+          if(error)
+          {
+              console.log("Data insertion failed");
+          
+          }
+
+          console.log(result.ops);
+
+
+      }
+  )
+
+    }
+
+    )
+
+  })
+
 function pairMatch()
 {
     var cost=0; 
-    console.log(riders.length, drivers.length);
+    //console.log(riders.length, drivers.length);
     if(riders.length !== 0)
     {
         for(var i=0; i<riders.length;i++)
@@ -96,22 +138,16 @@ function pairMatch()
         riders.splice(i,1);
 
     }
-    
-    //drivers=[];
-    //riders=[];
 
     }
     
-console.log(matchedPairs);
+
 
 
 };
 
 
 setInterval(pairMatch,5000);
-
-//var distance = Math.sqrt(Math.pow(drivers[i].coOrdinate.x-riders[i].coOrdinate.x),2 + Math.pow(drivers[i].coOrdinate.y-riders[i].coOrdinate.y),2)
-
 
 
 commNsp.on('connection',(socket)=>{
@@ -134,18 +170,6 @@ commNsp.on('connection',(socket)=>{
     })
 
 });
-
-// driverNsp.on('connection',(socket)=>{
-
-//     console.log("Driver Connection Established");
-//     socket.emit('message',`Driver's Console: Hello`);
-//     socket.on("clientResponse",(response)=>{
-
-//         console.log(response);
-
-//     })
-
-// });
 
 
 

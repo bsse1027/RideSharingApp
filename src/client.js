@@ -1,16 +1,3 @@
-const mongodb = require("mongodb");
-
-const MongoClient = mongodb.MongoClient;
-
-const connectionURL = 'mongodb://127.0.0.1:27017';
-
-const databaseName = 'ride-sharing';
-
-
-
-
-
-
 const io = require('socket.io-client');
 const axios=require('axios');
 //const mongodb=require("./mongodb.js")
@@ -124,44 +111,24 @@ commSocket.on("data",(arr)=>{
     var rating =between(0,5);
     var driverName=tempArr[count].driverName;
     console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
+    
+    axios
+    .post('http://localhost:3000/rating', {
+    "name":`${tempArr[count].driverName}`,
+    "rating":rating
 
-    MongoClient.connect(connectionURL,{useUnifiedTopology: true}, (error, client) =>
-    {
-        if(error)
-        {
-            return console.log("Unable to connect to Database'");
-        }
-
-        const db = client.db(databaseName);
-
-        
-    db.collection('users').insertOne(
-      {
-          name: driverName,
-          rating : rating
-      }
-      , (error , result) => {
-
-          if(error)
-          {
-              console.log("Data insertion failed");
-          
-          }
-
-          console.log(result.ops);
-
-
-      }
-  )
-
-    }
-
-    )
-
-  }
+    })
+    .then(res => {
+    // console.log(`statusCode: ${res.statusCode}`)
+    // console.log(res)
+    })
+    .catch(error => {
+    console.error(error)
+    })
  
   count++;
   
+}
 });
 
 
