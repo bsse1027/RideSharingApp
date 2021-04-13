@@ -39,11 +39,11 @@ commNsp.on('connection',(socket)=>{
         if(matchedPair.length!==0)
         {
             socket.emit('data',matchedPair)
-            matchedPair=[];
+            //matchedPair=[];
 
         }
 
-    },1000)
+    },5000)
     
     // socket.on("clientResponse",(response)=>{
 

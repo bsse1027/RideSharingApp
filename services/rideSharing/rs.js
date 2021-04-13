@@ -81,10 +81,13 @@ function pairMatch()
                 })
                 .catch(error => {
                 console.error(error)
-                })    
+                }) 
+                
+            drivers.splice(index,1);
+            riders.splice(i,1);
         
         
-        matchedPairs.push(jsonMatch);
+        //matchedPairs.push(jsonMatch);
         
     };
         
@@ -92,8 +95,7 @@ function pairMatch()
         
         
         //console.log(riders[i].name+"matched with"+drivers[index].name+"Cost is: "+cost);
-        drivers.splice(index,1);
-        riders.splice(i,1);
+        
 
     }
 

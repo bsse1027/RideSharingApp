@@ -114,7 +114,7 @@ commSocket.on("data",(arr)=>{
     
     axios
     .post('http://localhost:3003/rating', {
-    "name":`${tempArr[count].driverName}`,
+    "name":driverName,
     "rating":rating
 
     })
