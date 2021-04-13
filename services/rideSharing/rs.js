@@ -70,9 +70,25 @@ function pairMatch()
                 "carNumber":drivers[index].carNumber,
                 "fair":cost
             };
+
+            axios.post('http://localhost:3002/mp',
+            
+                jsonMatch
+                
+                ).then(res => {
+                // console.log(`statusCode: ${res.statusCode}`)
+                // console.log(res)
+                })
+                .catch(error => {
+                console.error(error)
+                })    
         
         
         matchedPairs.push(jsonMatch);
+        
+    };
+        
+        
         
         
         //console.log(riders[i].name+"matched with"+drivers[index].name+"Cost is: "+cost);
@@ -81,18 +97,9 @@ function pairMatch()
 
     }
 
-    console.log(matchedPairs);
+    // console.log(matchedPairs);
 
-    axios.post('http://localhost:3002/mp',{
-        matchedPairs
-    }).then(res => {
-        // console.log(`statusCode: ${res.statusCode}`)
-        // console.log(res)
-        })
-        .catch(error => {
-        console.error(error)
-        })
-    };
+    
 
 };   
 

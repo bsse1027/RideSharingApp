@@ -123,7 +123,8 @@ commSocket.on("data",(arr)=>{
     // console.log(res)
     })
     .catch(error => {
-    console.error(error)
+    //console.error(error)
+    console.log("Error has occurred");
     })
  
   count++;

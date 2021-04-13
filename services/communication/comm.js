@@ -25,6 +25,7 @@ var matchedPair=[];
 
 app.post("/mp",(req,res)=>{
 
+    console.log(req.body);
     matchedPair.push(req.body);
 
 })
@@ -38,9 +39,11 @@ commNsp.on('connection',(socket)=>{
         if(matchedPair.length!==0)
         {
             socket.emit('data',matchedPair)
+            matchedPair=[];
+
         }
 
-    },5000)
+    },1000)
     
     // socket.on("clientResponse",(response)=>{
 
