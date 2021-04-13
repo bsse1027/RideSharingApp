@@ -41,6 +41,7 @@ app.post("/rider",(req,res)=>{
 
     riders.push(req.body);
     //console.log(riders);
+    res.send(req.body).status(200);
 
 });
 
@@ -48,6 +49,7 @@ app.post("/driver",(req,res)=>{
 
     drivers.push(req.body);
     //console.log(drivers);
+    res.send(req.body).status(200);
 
 });
 
@@ -55,6 +57,7 @@ app.post("/rating",(req,res)=>{
 
     var driverName=req.body.name;
     var rating=req.body.rating;
+    res.send(req.body).status(200);
 
     
     MongoClient.connect(connectionURL,{useUnifiedTopology: true}, (error, client) =>
@@ -163,11 +166,11 @@ commNsp.on('connection',(socket)=>{
 
     },5000)
     
-    socket.on("clientResponse",(response)=>{
+    // socket.on("clientResponse",(response)=>{
 
-        console.log(response);
+    //     console.log(response);
 
-    })
+    // })
 
 });
 
