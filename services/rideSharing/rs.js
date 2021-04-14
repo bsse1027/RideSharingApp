@@ -18,7 +18,7 @@ app.use(express.json());
 
 //Routes
 
-app.post("/rider",(req,res)=>{
+app.post("/rs/rider",(req,res)=>{
 
     riders.push(req.body);
     //console.log(riders);
@@ -26,7 +26,7 @@ app.post("/rider",(req,res)=>{
 
 });
 
-app.post("/driver",(req,res)=>{
+app.post("/rs/driver",(req,res)=>{
 
     drivers.push(req.body);
     //console.log(drivers);

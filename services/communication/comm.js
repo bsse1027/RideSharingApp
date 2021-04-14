@@ -1,5 +1,6 @@
 const express = require("express");
 const http = require('http');
+const { resolve } = require("path");
 const socketIO = require('socket.io');
 
 const app=express();
@@ -30,10 +31,15 @@ app.post("/mp",(req,res)=>{
 
 })
 
+// const timeLapse = setTimeout(()=>{
+//     return true;
+// },8000)
+
 commNsp.on('connection',(socket)=>{
 
     console.log("Rider Connection Established");
     socket.emit('message',`Hello Client`);
+
     setInterval(()=>{
 
         if(matchedPair.length!==0)
@@ -43,7 +49,37 @@ commNsp.on('connection',(socket)=>{
 
         }
 
-    },5000)
+    },1000)
+
+    // const myPormise = new Promise((resolve,reject)=>
+    // {
+    //     if(timeLapse)
+    //     {
+    //         resolve("time Lapsed");
+    //     }
+
+    //     else{
+    //         reject("Time's not lapsed");
+    //     }
+
+    // });
+
+    // myPormise.then((data)=>{
+    //     setInterval(()=>{
+
+    //         if(matchedPair.length!==0)
+    //         {
+    //             socket.emit('data',matchedPair)
+    //             //matchedPair=[];
+    
+    //         }
+    
+    //     },1000)
+
+    // }).catch((error)=>{
+    //     console.log(error);
+    // })
+    
     
     // socket.on("clientResponse",(response)=>{
 
