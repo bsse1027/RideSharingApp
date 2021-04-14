@@ -106,30 +106,33 @@ commSocket.on("data",(arr)=>{
 
   var tempArr=arr;
 
-  if(tempArr)
-  {
-    var rating =between(0,5);
-    var driverName=tempArr[count].driverName;
-    console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
-    
-    axios
-    .post('http://localhost:3003/rating', {
-    "name":driverName,
-    "rating":rating
-
-    })
-    .then(res => {
-    // console.log(`statusCode: ${res.statusCode}`)
-    // console.log(res)
-    })
-    .catch(error => {
-    //console.error(error)
-    console.log("Error has occurred");
-    })
- 
-  count++;
   
-}
+  if(tempArr)
+    {
+      var rating = between(0,5);
+      var driverName= tempArr[count].driverName;
+      console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
+      
+      axios
+      .post('http://localhost:3003/rating', {
+      "name":driverName,
+      "rating":rating
+  
+      })
+      .then(res => {
+      // console.log(`statusCode: ${res.statusCode}`)
+      // console.log(res)
+      })
+      .catch(error => {
+      //console.error(error)
+      console.log("Error has occurred");
+      })
+   
+    count++;
+    
+  }
+  
+  
 });
 
 

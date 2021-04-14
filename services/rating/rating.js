@@ -8,6 +8,14 @@ const databaseName = 'ride-sharing';
 const app=express();
 const port = 3003;
 
+app.use(
+    express.urlencoded({
+      extended: true
+    })
+  );
+
+app.use(express.json());
+
 app.post("/rating",(req,res)=>{
 
     var driverName=req.body.name;
