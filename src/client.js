@@ -33,7 +33,7 @@ function riderRequest()
     var destCoordY= between(0,1000);
 
     axios
-  .post('http://localhost:3001/rs/rider', {
+  .post('http://localhost/rs/rider', {
     "name":riderName,
     "coOrdinate":{
         "x":randomCoordX,
@@ -65,7 +65,7 @@ function driverRequest()
     var randomCoordY= between(0,1000);
 
 axios
-  .post('http://localhost:3001/rs/driver', {
+  .post('http://localhost/rs/driver', {
     
     "name":driverName,
     "carNumber":carNumber,
@@ -105,7 +105,7 @@ var count=0;
 commSocket.on("data",(arr)=>{
 
   var tempArr=arr;
-  console.log(tempArr);
+  //console.log(tempArr);
 
   
   if(tempArr[count])
@@ -116,7 +116,7 @@ commSocket.on("data",(arr)=>{
       console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
       
       axios
-      .post('http://localhost:3003/rating', {
+      .post('http://localhost/rating', {
       "name":driverName,
       "rating":rating
   
