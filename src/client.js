@@ -50,7 +50,7 @@ function riderRequest()
     // console.log(res)
   })
   .catch(error => {
-    console.error(error)
+    console.error("error");
   })
 
 };
@@ -80,7 +80,7 @@ axios
     // console.log(res)
   })
   .catch(error => {
-    console.error(error)
+    console.error("error");
   })
 
 };
