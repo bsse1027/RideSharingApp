@@ -2,11 +2,11 @@ const io = require('socket.io-client');
 const axios=require('axios');
 //const mongodb=require("./mongodb.js")
 
-const socket = io.connect('http://localhost:3002');
+const socket = io.connect('http://localhost:8080');
 
 // const riderSocket = io("http://localhost:3000/rider");
 // const driverSocket = io("http://localhost:3000/driver");
-const commSocket = io("http://localhost:3002/communication");
+const commSocket = io("http://localhost:8080/communication");
 
 var riderCount=0;
 var driverCount=0;
@@ -33,7 +33,7 @@ function riderRequest()
     var destCoordY= between(0,1000);
 
     axios
-  .post('http://localhost/rs/rider', {
+  .post('http://localhost:8080/rs/rider', {
     "name":riderName,
     "coOrdinate":{
         "x":randomCoordX,
@@ -65,7 +65,7 @@ function driverRequest()
     var randomCoordY= between(0,1000);
 
 axios
-  .post('http://localhost/rs/driver', {
+  .post('http://localhost:8080/rs/driver', {
     
     "name":driverName,
     "carNumber":carNumber,
@@ -116,7 +116,7 @@ commSocket.on("data",(arr)=>{
       console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
       
       axios
-      .post('http://localhost/rating', {
+      .post('http://localhost:8080/rating', {
       "name":driverName,
       "rating":rating
   
