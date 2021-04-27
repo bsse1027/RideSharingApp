@@ -2,15 +2,20 @@ version: '3'
 
 services:
     ride-sharing:
-        image: junaid894/ride-sharing
+        build: ./services/rideSharing
+        #image: junaid894/ride-sharing
         restart: always
 
     communication:
-        image: junaid894/communication
+        build: ./services/communication
+        #image: junaid894/communication
+        ports: 
+            - 8081:8081
         restart: always
     
     rating:
-        image: junaid894/rating
+        build: ./services/rating
+        #image: junaid894/rating
         restart: always
     
     nginx:
@@ -21,6 +26,19 @@ services:
             - ride-sharing
             - communication
             - rating
+
+    mongodb:
+        image: mongo
+        # environment: 
+        #     MONGO_INITDB_ROOT_USERNAME: 
+        #     MONGO_INITDB_ROOT_PASSWORD: 
+        ports: 
+            - 27017:27017
+        volumes: 
+            - mongodb_data_container:/data/db
+
+volumes: 
+    mongodb_data_container:
 
 
 

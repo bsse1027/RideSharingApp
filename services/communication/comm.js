@@ -4,9 +4,10 @@ const { resolve } = require("path");
 const socketIO = require('socket.io');
 
 const app=express();
-const port = 3002;
+const serverPort = 8080;
+const socketPort = 8081;
 
-const server=http.createServer(app);
+const server=http.createServer();
 const io=socketIO(server);
 // const riderNsp=io.of('/rider');
 // const driverNsp=io.of('/driver');
@@ -70,7 +71,7 @@ commNsp.on('connection',(socket)=>{
     //         if(matchedPair.length!==0)
     //         {
     //             socket.emit('data',matchedPair)
-    //             //matchedPair=[];
+    //             //matchedPair=[];app
     
     //         }
     
@@ -89,6 +90,10 @@ commNsp.on('connection',(socket)=>{
 
 });
 
-server.listen(port,()=>{
-    console.log("Communication Service Started");
+server.listen(socketPort,()=>{
+    console.log("Comm Socket Service Started");
+})
+
+app.listen(serverPort,()=>{
+    console.log("Communication Server Started");
 })
