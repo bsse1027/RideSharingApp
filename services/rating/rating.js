@@ -2,7 +2,7 @@ const express = require("express");
 
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
-const connectionURL = 'mongodb://172.17.0.1:27017';
+const connectionURL = 'mongodb://mongodb:27017';
 const databaseName = 'ride-sharing';
 
 const app=express();
