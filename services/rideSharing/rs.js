@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 
 const app=express();
-const port = 3001;
+const port = 8080;
 
 var riders=[];
 var drivers=[];
@@ -71,7 +71,7 @@ function pairMatch()
                 "fair":cost
             };
 
-            axios.post('http://172.17.0.1:3002/mp',
+            axios.post('http://communication:8080/mp',
             
                 jsonMatch
                 

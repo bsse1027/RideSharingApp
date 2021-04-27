@@ -6,7 +6,7 @@ const connectionURL = 'mongodb://172.17.0.1:27017';
 const databaseName = 'ride-sharing';
 
 const app=express();
-const port = 3003;
+const port = 8080;
 
 app.use(
     express.urlencoded({

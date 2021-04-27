@@ -4,7 +4,7 @@ const { resolve } = require("path");
 const socketIO = require('socket.io');
 
 const app=express();
-const port = 3002;
+const port = 8080;
 
 const server=http.createServer(app);
 const io=socketIO(server);
