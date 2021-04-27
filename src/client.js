@@ -2,11 +2,11 @@ const io = require('socket.io-client');
 const axios=require('axios');
 //const mongodb=require("./mongodb.js")
 
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect('http://localhost:8081');
 
 // const riderSocket = io("http://localhost:3000/rider");
 // const driverSocket = io("http://localhost:3000/driver");
-const commSocket = io("http://localhost:8080/communication");
+const commSocket = io("http://localhost:8081/communication");
 
 var riderCount=0;
 var driverCount=0;

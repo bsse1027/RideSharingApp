@@ -9,6 +9,8 @@ services:
     communication:
         build: ./services/communication
         #image: junaid894/communication
+        ports: 
+            - 8081:8081
         restart: always
     
     rating:
