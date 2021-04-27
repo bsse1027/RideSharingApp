@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+    ride-sharing:
+        image: junaid894/ride-sharing
+        restart: always
+
+    communication:
+        image: junaid894/communication
+        restart: always
+    
+    rating:
+        image: junaid894/rating
+        restart: always
+    
+    nginx:
+        build: ./services/nginx
+        ports: 
+            - 8080:80
+        depends_on: 
+            - ride-sharing
+            - communication
+            - rating
+
+
+
