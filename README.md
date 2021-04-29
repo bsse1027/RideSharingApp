@@ -1,6 +1,6 @@
 # Ride Sharing System (Microservices using Docker,Docker-compose)
 Course : Distributed Systems.
-6th Semester.
+6th Semester, IITDU.
 
 ## Step-1:(**Node.js,express,socket.io**)
 A Simple Ride-sharing app has been developed using node.js , express, socket.io
