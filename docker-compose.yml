@@ -5,6 +5,8 @@ services:
         build: ./services/rideSharing
         #image: junaid894/ride-sharing
         restart: always
+        depends_on: 
+            - communication
 
     communication:
         build: ./services/communication
@@ -17,6 +19,8 @@ services:
         build: ./services/rating
         #image: junaid894/rating
         restart: always
+        depends_on: 
+            - mongodb
     
     nginx:
         build: ./services/nginx
@@ -24,7 +28,6 @@ services:
             - 8080:80
         depends_on: 
             - ride-sharing
-            - communication
             - rating
 
     mongodb:
