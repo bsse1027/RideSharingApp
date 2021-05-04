@@ -1,12 +1,24 @@
 const io = require('socket.io-client');
 const axios=require('axios');
 //const mongodb=require("./mongodb.js")
+const server = "chittagong"
+const link = `ridesharing.${server}.bd`
+var socketLink="";
 
-const socket = io.connect('http://localhost:8081');
+if(server === "dhaka")
+{
+  socketLink ="10.100.0.12:8081";
+}
+else if(server === "chittagong")
+{
+  socketLink = "10.100.0.22:8081";
+}
+
+const socket = io.connect(`http://${link}:8081`);
 
 // const riderSocket = io("http://localhost:3000/rider");
 // const driverSocket = io("http://localhost:3000/driver");
-const commSocket = io("http://localhost:8081/communication");
+const commSocket = io(`http://${socketLink}/communication`);
 
 var riderCount=0;
 var driverCount=0;
@@ -17,6 +29,25 @@ function between(min, max) {
       Math.random() * (max - min) + min
     )
   }
+
+
+
+function serverName()
+{
+  axios
+  .post(`http://${link}/rs/name`, {
+    
+    "serverName":server
+
+  })
+  .then(res => {
+    // console.log(`statusCode: ${res.statusCode}`)
+    // console.log(res)
+  })
+  .catch(error => {
+    console.error("error");
+  })
+}
 
 
 
@@ -33,7 +64,7 @@ function riderRequest()
     var destCoordY= between(0,1000);
 
     axios
-  .post('http://localhost:8080/rs/rider', {
+  .post(`http://${link}/rs/rider`, {
     "name":riderName,
     "coOrdinate":{
         "x":randomCoordX,
@@ -65,7 +96,7 @@ function driverRequest()
     var randomCoordY= between(0,1000);
 
 axios
-  .post('http://localhost:8080/rs/driver', {
+  .post(`http://${link}/rs/driver`, {
     
     "name":driverName,
     "carNumber":carNumber,
@@ -87,6 +118,7 @@ axios
 
 setInterval(riderRequest,1000);
 setInterval(driverRequest,1000);
+serverName();
 
 commSocket.on("message",(msg)=>{
   console.log(msg);
@@ -116,7 +148,7 @@ commSocket.on("data",(arr)=>{
       console.log(`${tempArr[count].riderName} has been connected with ${tempArr[count].driverName}.\nand the fair is: ${tempArr[count].fair} with a car number of ${tempArr[count].carNumber}\n The Rating is:${rating}`);
       
       axios
-      .post('http://localhost:8080/rating', {
+      .post(`http://${link}/rating`, {
       "name":driverName,
       "rating":rating
   
