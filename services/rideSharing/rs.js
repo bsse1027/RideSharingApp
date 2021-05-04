@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+var server = "";
 
 const app=express();
 const port = 8080;
@@ -17,6 +18,14 @@ app.use(
 app.use(express.json());
 
 //Routes
+
+app.post("/rs/name",(req,res)=>{
+
+    server=req.body.serverName;
+
+});
+
+
 
 app.post("/rs/rider",(req,res)=>{
 
@@ -71,7 +80,7 @@ function pairMatch()
                 "fair":cost
             };
 
-            axios.post('http://communication:8080/mp',
+            axios.post(`http://communication-${server}:8080/mp`,
             
                 jsonMatch
                 

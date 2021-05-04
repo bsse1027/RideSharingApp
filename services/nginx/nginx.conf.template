@@ -6,17 +6,15 @@
 	
 	location /rs{
 	
-		proxy_pass http://ride-sharing:8080;
+		proxy_pass http://${RIDE_SHARING}:8080;
 		
 	
 	}
 	
 	location /rating{
 	
-		proxy_pass http://rating:8080;
-		
-	
+		proxy_pass http://${RATING}:8080;
+
 	}
-	
 	
 }
