@@ -1,6 +1,6 @@
 const express = require("express");
 const axios = require("axios");
-var server = "";
+var server = process.env.SERVER_NAME;
 
 const app=express();
 const port = 8080;
@@ -19,11 +19,11 @@ app.use(express.json());
 
 //Routes
 
-app.post("/rs/name",(req,res)=>{
+// app.post("/rs/name",(req,res)=>{
 
-    server=req.body.serverName;
+//     server=req.body.serverName;
 
-});
+// });
 
 
 

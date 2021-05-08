@@ -16,6 +16,8 @@ services:
         networks: 
             iftiLink:
                 ipv4_address: 10.100.0.11
+        environment: 
+            - SERVER_NAME=dhaka 
 
     communication-dhaka:
         build: ./services/communication
@@ -26,6 +28,8 @@ services:
         networks: 
             iftiLink:
                 ipv4_address: 10.100.0.12
+
+         
     
     rating:
         build: ./services/rating
@@ -68,6 +72,8 @@ services:
         networks: 
             iftiLink:
                 ipv4_address: 10.100.0.21
+        environment: 
+            - SERVER_NAME=chittagong
 
     communication-chittagong:
         build: ./services/communication

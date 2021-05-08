@@ -1,7 +1,7 @@
 const io = require('socket.io-client');
 const axios=require('axios');
 //const mongodb=require("./mongodb.js")
-const server = "chittagong"
+const server = "dhaka"
 const link = `ridesharing.${server}.bd`
 var socketLink="";
 
@@ -32,22 +32,22 @@ function between(min, max) {
 
 
 
-function serverName()
-{
-  axios
-  .post(`http://${link}/rs/name`, {
+// function serverName()
+// {
+//   axios
+//   .post(`http://${link}/rs/name`, {
     
-    "serverName":server
+//     "serverName":server
 
-  })
-  .then(res => {
-    // console.log(`statusCode: ${res.statusCode}`)
-    // console.log(res)
-  })
-  .catch(error => {
-    console.error("error");
-  })
-}
+//   })
+//   .then(res => {
+//     // console.log(`statusCode: ${res.statusCode}`)
+//     // console.log(res)
+//   })
+//   .catch(error => {
+//     console.error("error");
+//   })
+// }
 
 
 
@@ -118,7 +118,7 @@ axios
 
 setInterval(riderRequest,1000);
 setInterval(driverRequest,1000);
-serverName();
+//serverName();
 
 commSocket.on("message",(msg)=>{
   console.log(msg);
