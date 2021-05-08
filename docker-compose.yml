@@ -1,34 +1,109 @@
 version: '3'
 
+networks: 
+    iftiLink:
+        ipam: 
+            config: 
+                - subnet: 10.100.0.0/24
+
 services:
-    ride-sharing:
+    ride-sharing-dhaka:
         build: ./services/rideSharing
         #image: junaid894/ride-sharing
         restart: always
         depends_on: 
-            - communication
+            - communication-dhaka
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.11
+        environment: 
+            - SERVER_NAME=dhaka 
 
-    communication:
+    communication-dhaka:
         build: ./services/communication
         #image: junaid894/communication
-        ports: 
-            - 8081:8081
+        # ports: 
+        #     - 8081:8081
         restart: always
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.12
+
+         
     
     rating:
         build: ./services/rating
         #image: junaid894/rating
+
         restart: always
+
         depends_on: 
             - mongodb
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.100
     
-    nginx:
+    nginx-dhaka:
         build: ./services/nginx
-        ports: 
-            - 8080:80
+        # ports: 
+        #     - 8080:80
+
         depends_on: 
-            - ride-sharing
+            - ride-sharing-dhaka
             - rating
+
+        environment: 
+            - RIDE_SHARING=ride-sharing-dhaka
+            - RATING=rating
+            - COMM=communication-dhaka
+
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'"
+
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.10
+
+    ride-sharing-chittagong:
+        build: ./services/rideSharing
+        #image: junaid894/ride-sharing
+        restart: always
+        depends_on: 
+            - communication-chittagong
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.21
+        environment: 
+            - SERVER_NAME=chittagong
+
+    communication-chittagong:
+        build: ./services/communication
+        #image: junaid894/communication
+        # ports: 
+        #     - 8081:8081
+        restart: always
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.22
+    
+    nginx-chittagong:
+        build: ./services/nginx
+        # ports: 
+        #     - 8080:80
+
+        depends_on: 
+            - ride-sharing-chittagong
+            - rating
+
+        environment: 
+            - RIDE_SHARING=ride-sharing-chittagong
+            - RATING=rating
+            - COMM=communication-chittagong
+
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'"
+
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.20
 
     mongodb:
         image: mongo
@@ -39,6 +114,9 @@ services:
             - 27017:27017
         volumes: 
             - mongodb_data_container:/data/db
+        networks: 
+            iftiLink:
+                ipv4_address: 10.100.0.200
 
 volumes: 
     mongodb_data_container:

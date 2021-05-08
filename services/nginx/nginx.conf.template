@@ -1,0 +1,20 @@
+	server{
+	
+	listen 80;
+	server_name _;
+	
+	
+	location /rs{
+	
+		proxy_pass http://${RIDE_SHARING}:8080;
+		
+	
+	}
+	
+	location /rating{
+	
+		proxy_pass http://${RATING}:8080;
+
+	}
+	
+}
